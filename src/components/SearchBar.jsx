@@ -16,7 +16,7 @@ export default function SearchBar(){
                     </div>
                     <div className="flex my-auto" style={{ fontSize: '25px' }}>
                         <a href="#" className="px-3">
-                            <i className="fa-solid fa-user relative group ">
+                            <i className="fa-solid fa-user relative group">
                                 <div className=" absolute flex flex-col w-[320px] opacity-0 group-hover:opacity-100 bg-white -right-[40px] top-[35px] border border-gray-400 rounded-md">
                                     High
                                 </div>
