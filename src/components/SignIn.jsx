@@ -9,7 +9,7 @@ export default function SignIn(){
             <div className="relative w-[100%]">
                 <div className="container flex flex-col mx-auto justify-center mt-[30px]">
                     <span className='text-[40px] font-bold'>
-                        Hey
+                        Sign In
                     </span>
                     <span className='text-[14px] mt-[5px]'>
                         Sign in to your account or <Link className="text-blue-500 border-b border-blue-500 hover:border-b-0" to="/create-account">create an account</Link>

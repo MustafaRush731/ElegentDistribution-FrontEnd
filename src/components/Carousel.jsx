@@ -15,11 +15,19 @@ export default function Carousel() {
     ];
     
     const previousSlide = () => {
-      setCurrent(current === 0 ? slides.length - 1 : current - 1);
+      if(current === 0){
+        setCurrent(slides.length-1);
+      } else {
+        setCurrent(current - 1);
+      }
     };
   
     const nextSlide = () => {
-      setCurrent(current === slides.length - 1 ? 0 : current + 1);
+      if(current === slides.length-1){
+        setCurrent(0);
+      } else {
+        setCurrent(current + 1);
+      }
     };
   
     useEffect(() => {
@@ -33,13 +41,13 @@ export default function Carousel() {
     }, [current]);
   
     return (
-      <div className="overflow-hidden w-[70%] mx-auto mt-[20px] relative rounded-lg z-0 group">
+      <div className="overflow-hidden max-w-[1300px] max-h-[500px] mx-auto mt-[20px] relative rounded-lg z-0 group">
           <div
-            className="flex"
+            className="flex transition-transform duration-500 "
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
-            {slides.map((slide, index) => (
-              <img key={index} src={slide} alt={`Slide ${index + 1}`}/>
+            {slides.map((slid) => (
+              <img src={slid} className="object-cover object-center"/>
             ))}
           </div>
             <div className="absolute top-0 h-full w-full flex justify-between z-10">
@@ -53,7 +61,6 @@ export default function Carousel() {
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
             {slides.map((slide, index) => (
               <div
-                key={index}
                 onClick={() => {
                   setCurrent(index);
                 }}
