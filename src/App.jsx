@@ -7,6 +7,7 @@ import Stats from './components/Stats'
 
 import React from 'react';
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
+import ItemCarousel from './components/ItemCarousel'
 
 
 const MainApp = () => {
@@ -14,7 +15,7 @@ const MainApp = () => {
     <main>
       <SearchBar />
       <Carousel />
-      {/* <Stats /> */}
+      <ItemCarousel />
     </main>
   );
 };
