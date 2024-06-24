@@ -14,22 +14,37 @@ export default function Carousel() {
       medicine
     ];
     
-    const previousSlide = () => {
+    // const previousSlide = () => {
+    //   if(current === 0){
+    //     setCurrent(slides.length-1);
+    //   } else {
+    //     setCurrent(current - 1);
+    //   }
+    // };
+
+    function previousSlide() {
       if(current === 0){
         setCurrent(slides.length-1);
-      } else {
+      }else{
         setCurrent(current - 1);
       }
-    };
-  
-    const nextSlide = () => {
+    }
+    // const nextSlide = () => {
+    //   if(current === slides.length-1){
+    //     setCurrent(0);
+    //   } else {
+    //     setCurrent(current + 1);
+    //   }
+    // };
+
+    function nextSlide() {
       if(current === slides.length-1){
         setCurrent(0);
       } else {
         setCurrent(current + 1);
       }
-    };
-  
+    }
+
     useEffect(() => {
       const intervalId = setInterval(() => {
         nextSlide();
@@ -39,9 +54,9 @@ export default function Carousel() {
         clearInterval(intervalId);
       };
     }, [current]);
-  
+
     return (
-      <div className="overflow-hidden max-w-[1300px] max-h-[500px] mx-auto mt-[20px] relative rounded-lg z-0 group">
+      <div className="overflow-hidden max-w-[1500px] max-h-[500px] mx-auto mt-[20px] relative rounded-lg z-0 group ">
           <div
             className="flex transition-transform duration-500 "
             style={{ transform: `translateX(-${current * 100}%)` }}
