@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar'
 import Carousel from './components/Carousel'
 import SignIn from './components/SignIn'
 import CreateAccount from './components/CreateAccount'
+import { CategoriesPage } from './components/Categories'
 import Stats from './components/Stats'
 
 import React from 'react';
@@ -28,6 +29,7 @@ function App() {
           <Route path="/" element={<MainApp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/categories" element={<CategoriesPage />} />
         </Routes>
       </main>
     </Router>
