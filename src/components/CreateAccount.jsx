@@ -1,19 +1,208 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
+import { faBusinessTime } from '@fortawesome/free-solid-svg-icons/faBusinessTime';
 
 export default function CreateAccount(){
     const [buttonOneClicked, setButtonOneClicked] = useState(true);
     const [buttonTwoClicked, setButtonTwoClicked] = useState(false);
+    const [userFirstName, setUserFirstName] = useState('');
+    const [userLastName, setUserLastName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+    const [businessName, setBusinessName] = useState('');
+    const [businessEmail, setBusinessEmail] = useState('');
+    const [businessPassword, setBusinessPassword] = useState('');
+    const [validPassword, setValidPassword] = useState('');
+    const [validEmail, setValidEmail] = useState('');
+    const [validName, setValidName] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [returnData, setReturnData] = useState(false);
 
     const handleButton1Click = () => {
         setButtonOneClicked(true);
         setButtonTwoClicked(false);
+        setBusinessName('');
+        setBusinessEmail('');
+        setBusinessPassword('');
+        setValidPassword('');
+        setShowPassword(false);
+        setValidPassword("");
+        setValidEmail("");
+        setValidName("");
+        setReturnData(false);
     }
 
     const handleButton2Click = () => {
         setButtonOneClicked(false);
         setButtonTwoClicked(true);
+        setUserPassword('');
+        setUserLastName('');
+        setUserEmail('');
+        setUserPassword('');
+        setValidPassword('');
+        setShowPassword(false);
+        setValidPassword("");
+        setValidEmail("");
+        setValidName("");
+        setReturnData(false);
     }
+
+    const handleUserFirstNameChange = (e) => {
+        setUserFirstName(e.target.value);
+        if(e.target.value == 0){
+            setValidName("Enter Your First Name");
+        } else {
+            setValidName("");
+        }
+    };
+
+    const handleUserLastNameChange = (e) => {
+        setUserLastName(e.target.value);
+        if(e.target.value == 0){
+            setValidName("Enter Your Last Name");
+        } else {
+            setValidName("");
+        }
+    };
+
+    const handleUserEmailChange = (e) => {
+        setUserEmail(e.target.value);
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+[^.]\S*$/;
+        if (e.target.value.length === 0) {
+            setValidEmail("Enter A Valid Email");
+        } else if (!pattern.test(e.target.value)) {
+            setValidEmail("Enter A Valid Email");
+        } else {
+            setValidEmail("");
+        }
+    };
+
+    const handleUserPasswordChange = (e) => {
+        setUserPassword(e.target.value);
+        if(e.target.value.length <= 7){
+            setValidPassword("Invalid Password Must Be At Least 8 Characters Long");
+        }else{
+            setValidPassword("");
+        }
+    };
+
+    const handleBusinessNameChange = (e) => {
+        setBusinessName(e.target.value);
+        if(e.target.value == 0){
+            setValidName("Enter Company Name");
+        } else {
+            setValidName("");
+        }
+    };
+
+    const handleBusinessEmailChange = (e) => {
+        setBusinessEmail(e.target.value);
+        const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+[^.]\S*$/;
+        if (e.target.value.length === 0) {
+            setValidEmail("Enter A Valid Email");
+        } else if (!pattern.test(e.target.value)) {
+            setValidEmail("Enter A Valid Email");
+        } else {
+            setValidEmail("");
+        }
+    };
+
+    const handleBusinessPasswordChange = (e) => {
+        setBusinessPassword(e.target.value);
+        if(e.target.value.length <= 7){
+            setValidPassword("Invalid Password Must Be At Least 8 Characters Long");
+        }else{
+            setValidPassword("");
+        }
+    };
+
+    const handleOnClickPassword = () => {
+        setShowPassword(!showPassword);
+    }
+
+    const handleSubmitUserButtonChecker = () => {
+        if(userEmail === "" || validEmail !== ""){
+            setValidEmail("Enter A Valid Email");
+            setReturnData(true);
+        }
+        if(userFirstName === "" || validName !== ""){
+            setValidName("Enter A Name");
+            setReturnData(true);
+        }
+        if(userLastName === "" || validName !== ""){
+            setValidName("Enter A Name");
+            setReturnData(true);
+        }
+        if(userPassword === "" || validPassword !== ""){
+            setValidPassword("Invalid Password Must Be At Least 8 Characters Long");
+            setReturnData(true);
+        }
+        return returnData;
+    }
+
+
+    const handleSubmitUserClick = async () => {
+        if (handleSubmitUserButtonChecker() === true){
+            setReturnData(false);
+            return;
+        }
+        try {
+            const postData = {
+                name: userFirstName + ' ' + userLastName,
+                email: userEmail,
+                password: userPassword
+            };
+
+            await axios.post('http://localhost:3000/account/create-account/users', postData);
+
+        }catch (error) {
+            // if (error.response){
+            //     if(error.response.status === 400){
+            //         setValidPassword(error.response.data.error)
+            //     }
+            // }
+        }
+    }
+    const handleSubmitBusinessButtonChecker = () => {
+        if(businessEmail === "" || validEmail !== ""){
+            setValidEmail("Enter A Valid Email");
+            setReturnData(true);
+        }
+        if(businessName === "" || validName !== ""){
+            setValidName("Enter Company Name");
+            setReturnData(true);
+        }
+        if(businessPassword === "" || validPassword !== ""){
+            setValidPassword("Invalid Password Must Be At Least 8 Characters Long");
+            setReturnData(true);
+        }
+        return returnData;
+    }
+
+    const handleSubmitBusinessClick = async () => {
+        if (handleSubmitBusinessButtonChecker() === true){
+            setReturnData(false);
+            return;
+        }
+
+        try {
+            const postData = {
+                name: businessName,
+                email: businessEmail,
+                password: businessPassword
+            };
+
+            await axios.post('http://localhost:3000/account/create-account/business', postData);
+        }catch (error) {
+            // if (error.response){
+            //     if(error.response.status === 400){
+            //         setValidPassword(error.response.data.error)
+            //     }
+            // }
+        }
+    }
+
     return(
         <div className='h-screen'>
             <div className="bg-white flex justify-between w-[100%]">
@@ -37,31 +226,47 @@ export default function CreateAccount(){
                             input="text"
                             placeholder='First Name'
                             className='flex-grow border border-gray-400 pb-[8px] pt-[8px] bg-gray-100 rounded-lg pl-[10px] mr-[15px]'
+                            value={userFirstName}
+                            onChange={handleUserFirstNameChange}
                         >
                         </input>
-                        <input 
+                        <input
                             input="text"
                             placeholder='Last Name'
                             className='border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] pl-[10px] flex-grow rounded-lg'
+                            value={userLastName}
+                            onChange={handleUserLastNameChange}
                         >
                         </input>
                     </div>
+                    <p className= 'text-[12px] mt-[10px] text-red-500 text-bold'>{validName}</p>
                     <div className='container flex flex-col mt-[25px]'>
                         <input
                             input="text"
-                            placeholder='Email'
+                            placeholder='Email Address'
                             className='width-[100%] border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] pl-[10px] flex-grow rounded-lg'
+                            value={userEmail}
+                            onChange={handleUserEmailChange}
                         >
                         </input>
-                        <input
-                            input="text"
-                            placeholder='Password'
-                            className='width-[100%] border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] pl-[10px] flex-grow rounded-lg mt-[20px]'
-                        >
-                        </input>
+                        <p className= 'text-[12px] mt-[10px] text-red-500 text-bold'>{validEmail}</p>
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "password":"text"}
+                                placeholder='Password'
+                                className='width-[100%] border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] pl-[10px] flex-grow rounded-lg mt-[20px] container'
+                                value={userPassword}
+                                onChange={handleUserPasswordChange}    
+                            >
+                            </input>
+                            <div className='absolute top-[29px] right-0 pr-3 cursor-pointer' onClick={handleOnClickPassword}> 
+                                {showPassword ? <i className="fa-regular fa-eye"></i> : <i className="fa-regular fa-eye-slash"></i>}
+                            </div>
+                            <p className= 'text-[12px] mt-[10px] text-red-500 text-bold'>{validPassword}</p>
+                        </div>
                     </div>
                     <div className='w-[100%]'>
-                        <button className='rounded-3xl bg-black mt-[20px] text-white pt-[5px] pb-[5px] w-[60%]  '>
+                        <button className='rounded-3xl bg-black mt-[20px] text-white pt-[5px] pb-[5px] w-[60%]' onClick={handleSubmitUserClick}>
                             Create Account
                         </button>
                     </div>
@@ -74,29 +279,43 @@ export default function CreateAccount(){
                             input="text"
                             placeholder='Business Name'
                             className='border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] rounded-lg pl-[10px] mt-[20px]'
+                            value={businessName}
+                            onChange={handleBusinessNameChange}
                         >
                         </input>
+                        <p className= 'text-[12px] mt-[10px] text-red-500 text-bold'>{validName}</p>
                         <input
                             input="text"
-                            placeholder='Email'
+                            placeholder='Email Address'
                             className='border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] rounded-lg pl-[10px] mt-[20px]'
+                            value={businessEmail}
+                            onChange={handleBusinessEmailChange}
                         >
                         </input>
-                        <input 
-                            input="text"
-                            placeholder='Password'
-                            className='border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] rounded-lg pl-[10px] mt-[20px]'
-                        >
-                        </input>
+                        <p className= 'text-[12px] mt-[10px] text-red-500 text-bold'>{validEmail}</p>
+                        <div className='relative'>
+                            <input 
+                                type={showPassword ? "password":"text"}
+                                placeholder='Password'
+                                className='border border-gray-400 bg-gray-100 pb-[8px] pt-[8px] rounded-lg pl-[10px] mt-[20px] container'
+                                value={businessPassword}
+                                onChange={handleBusinessPasswordChange}
+                            >
+                            </input>
+                            <div className='absolute top-[29px] right-0 pr-3 cursor-pointer' onClick={handleOnClickPassword}> 
+                                {showPassword ? <i className="fa-regular fa-eye"></i> : <i className="fa-regular fa-eye-slash"></i>}
+                            </div>
+                        </div>
                     </div>
+                    <p className= 'text-[12px] mt-[10px] text-red-500 text-bold'>{validPassword}</p>
                     <div className='w-[100%]'>
-                        <button className='rounded-3xl bg-black w-[60%] mt-[20px] text-white pt-[5px] pb-[5px]'>
+                        <button className='rounded-3xl bg-black w-[60%] mt-[20px] text-white pt-[5px] pb-[5px]' onClick={handleSubmitBusinessClick} >
                             Create Account
                         </button>
                     </div>
                 </>}
+                <Link className='text-blue-500 pt-[15px] text-[14px]' to="/forgot-password">Forgot password?</Link>
             </div>
-            
         </div>
     )
 }

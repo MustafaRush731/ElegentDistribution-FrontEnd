@@ -1,6 +1,45 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function SignIn(){
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordValid, setPasswordValid] = useState('');
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    }
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    }
+
+    const handleSubmitSignIn = async () => {
+        try {
+            const postData = {
+                email: email,
+                password: password
+            };
+
+            const response = await axios.post('http://localhost:3000/account/sign-in', postData);
+            if (response.status === 200) {
+                setPasswordValid("");
+            }
+        } catch(error) {
+            if (error.response){
+                if(error.response.status === 400){
+                    setPasswordValid(error.response.data.error);
+                }
+            }
+        }
+    }
+
+    const handleOnClickPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <>
             <div className="w-[100%]">
@@ -16,15 +55,25 @@ export default function SignIn(){
                     </span>
                     <input
                         type="text"
-                        placeholder="Email or username"
-                        className="flex-grow p-2 mx-auto border  w-[400px] mt-[40px] border-black rounded-md bg-gray-100 focus:outline-none"
+                        placeholder="Email Address"
+                        className="flex-grow p-2 mx-auto border w-[400px] mt-[40px] border-black rounded-md bg-gray-100 focus:outline-none"
+                        value={email}
+                        onChange={handleEmailChange}
                     />
-                    <input
-                        type="text"
-                        placeholder="Password"
-                        className="flex-grow p-2 mx-auto border  w-[400px] mt-[10px] border-black rounded-md bg-gray-100 focus:outline-none"
-                    />
-                    <button className='bg-yellow-500 mx-auto w-[400px] mt-[20px] border rounded-2xl pt-[10px] pb-[10px] text-[15px] font-bold text-white'>
+                    <div className='relative mx-auto'>
+                        <input
+                            type={showPassword ? "password":"text"}
+                            placeholder="Password"
+                            className="flex-grow p-2 mx-auto border w-[400px] mt-[10px] border-black rounded-md bg-gray-100 focus:outline-none"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                        <div className='absolute top-[19px] right-0 pr-3 cursor-pointer' onClick={handleOnClickPassword}> 
+                            {showPassword ? <i className="fa-regular fa-eye"></i> : <i className="fa-regular fa-eye-slash"></i>}
+                        </div>
+                    </div>
+                    <p className='text-[12px] mt-[10px] text-red-500 text-bold'>{passwordValid}</p>
+                    <button className='bg-yellow-500 mx-auto w-[400px] mt-[20px] border rounded-2xl pt-[10px] pb-[10px] text-[15px] font-bold text-white' onClick={handleSubmitSignIn}>
                         Continue
                     </button>
                     <span className="text-[13px] font-bold mt-[20px]">

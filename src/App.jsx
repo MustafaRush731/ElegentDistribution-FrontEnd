@@ -3,7 +3,7 @@ import SearchBar from './components/SearchBar'
 import Carousel from './components/Carousel'
 import SignIn from './components/SignIn'
 import CreateAccount from './components/CreateAccount'
-import Stats from './components/Stats'
+import ForgotPassword from './components/ForgotPassword'
 
 import React from 'react';
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
@@ -28,6 +28,7 @@ function App() {
           <Route path="/" element={<MainApp />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/create-account" element={<CreateAccount />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </main>
     </Router>
@@ -35,5 +36,12 @@ function App() {
 }
 
 export default App
+
+
+
+
+
+
+
 
 
