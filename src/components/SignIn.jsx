@@ -17,7 +17,7 @@ export default function SignIn(){
                     <input
                         type="text"
                         placeholder="Email or username"
-                        className="flex-grow p-2 mx-auto border  w-[400px] mt-[40px] border-black rounded-md bg-gray-100 focus:outline-none"
+                        className="flex-grow p-2 mx-auto border  w-[400px] mt-[40px] border-black rounded-md -gray-1bg00 focus:outline-none"
                     />
                     <input
                         type="text"

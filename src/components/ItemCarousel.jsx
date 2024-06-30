@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -66,6 +66,7 @@ const ItemCarousel = () => {
                 <div className="absolute mt-[320px] left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
                     {Array.from({ length: totalSlides }, (_, index) => (
                     <div
+                        key={index}
                         onClick={() => {
                         setCurrent(index);
                         }}

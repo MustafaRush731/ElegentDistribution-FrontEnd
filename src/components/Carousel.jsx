@@ -2,7 +2,7 @@ import household from '../assets/candy-pic.jpg';
 import car from '../assets/car-pic.jpg';
 import candy from '../assets/household-pic.jpg';
 import medicine from '../assets/medicine-pic.jpg';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Carousel() {
     const [current, setCurrent] = useState(0);
@@ -61,8 +61,8 @@ export default function Carousel() {
             className="flex transition-transform duration-500 "
             style={{ transform: `translateX(-${current * 100}%)` }}
           >
-            {slides.map((slid) => (
-              <img src={slid} className="object-cover object-center"/>
+            {slides.map((slid, index) => (
+              <img key={index} src={slid} className="object-cover object-center"/>
             ))}
           </div>
             <div className="absolute top-0 h-full w-full flex justify-between z-10">
@@ -76,6 +76,7 @@ export default function Carousel() {
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
             {slides.map((slide, index) => (
               <div
+                key={index}
                 onClick={() => {
                   setCurrent(index);
                 }}
